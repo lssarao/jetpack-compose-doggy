@@ -1,4 +1,4 @@
-package com.example.doggy
+package com.example.doggy.screens.welcome
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
