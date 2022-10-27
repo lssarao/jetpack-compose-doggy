@@ -1,7 +1,17 @@
 package com.example.doggy
 
-import androidx.compose.foundation.layout.*
-import androidx.compose.material.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.material.ContentAlpha
+import androidx.compose.material.Icon
+import androidx.compose.material.IconButton
+import androidx.compose.material.MaterialTheme
+import androidx.compose.material.OutlinedTextField
+import androidx.compose.material.Text
+import androidx.compose.material.TextFieldDefaults
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.Close
 import androidx.compose.material.icons.rounded.Search
@@ -19,7 +29,7 @@ fun TopBar() {
     Row(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(top = 5.dp, start = 15.dp, end = 10.dp),
+            .height(56.dp),
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.SpaceBetween
     ) {
@@ -27,16 +37,24 @@ fun TopBar() {
             text = "Dog Breeds",
             style = MaterialTheme.typography.h6,
             fontWeight = FontWeight.ExtraBold,
+            modifier = Modifier.padding(start = 16.dp)
         )
-        IconButton(onClick = { }) {
+        IconButton(
+            onClick = { },
+            modifier = Modifier.padding(end = 16.dp)
+        ) {
             Icon(
                 imageVector = Icons.Rounded.Search,
-                contentDescription = "Search",
-                tint = myColour2,
-                modifier = Modifier.size(30.dp)
+                contentDescription = "Search"
             )
         }
     }
+}
+
+@Preview(showBackground = true)
+@Composable
+fun TopBarPreview() {
+    TopBar()
 }
 
 @Composable

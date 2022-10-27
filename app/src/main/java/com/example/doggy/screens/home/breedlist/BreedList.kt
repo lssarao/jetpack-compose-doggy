@@ -1,4 +1,4 @@
-package com.example.doggy.screens.breedlist
+package com.example.doggy.screens.home.breedlist
 
 import android.util.Log
 import androidx.compose.foundation.layout.Box
@@ -22,20 +22,18 @@ import com.example.doggy.network.DogInfo
 import com.example.doggy.ui.theme.myColour2
 import kotlinx.coroutines.launch
 
-
 @Composable
-fun BreedList(allDog: List<DogInfo>, onDogClick: (DogInfo) -> Unit) {
+fun BreedListComponent(allDog: List<DogInfo>, onDogClick: (DogInfo) -> Unit) {
     val scrollState = rememberLazyListState()
     val coroutineScope = rememberCoroutineScope()
 
     Box {
-        TopBar()
         LazyColumn(
             state = scrollState,
-            modifier = Modifier.padding(top = 50.dp)
+            modifier = Modifier
         ) {
             items(allDog) { newDog ->
-                BreedItem(newDog, onDogClick)
+                BreedItemComponent(newDog, onDogClick)
                 Log.d("HomePage", newDog.toString())
             }
         } // column end

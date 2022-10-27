@@ -38,7 +38,7 @@ import com.example.doggy.network.DogInfo
 import com.example.doggy.ui.theme.myColour2
 
 @Composable
-fun DogDetails(dogInfo: DogInfo, onHomeClick: () -> Unit) {
+fun DogDetailScreen(dogInfo: DogInfo, onHomeClick: () -> Unit) {
     val painter = rememberAsyncImagePainter(
         model = ImageRequest.Builder(LocalContext.current)
             .data(dogInfo.image.url)

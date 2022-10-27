@@ -1,4 +1,4 @@
-package com.example.doggy.screens.breedlist
+package com.example.doggy.screens.home.breedlist
 
 import android.util.Log
 import androidx.compose.foundation.BorderStroke
@@ -28,7 +28,7 @@ import com.example.doggy.network.DogInfo
 private const val TAG = "BreedList"
 
 @Composable
-fun BreedItem(dogData: DogInfo, onDogClick: (DogInfo) -> Unit) {
+fun BreedItemComponent(dogData: DogInfo, onDogClick: (DogInfo) -> Unit) {
     val painter = rememberAsyncImagePainter(
         model = ImageRequest.Builder(LocalContext.current)
             .data(dogData.image.url)
@@ -39,7 +39,7 @@ fun BreedItem(dogData: DogInfo, onDogClick: (DogInfo) -> Unit) {
     Column(
         verticalArrangement = Arrangement.Top,
         horizontalAlignment = Alignment.CenterHorizontally,
-        modifier = Modifier.absolutePadding(left = 16.dp, right = 16.dp, top = 30.dp)
+        modifier = Modifier.absolutePadding(left = 16.dp, right = 16.dp, top = 8.dp, bottom = 8.dp)
     ) {
         Card(
             shape = RoundedCornerShape(20.dp),

@@ -1,18 +1,20 @@
 package com.example.doggy
 
 import android.net.Uri
+import android.os.Bundle
 import android.util.Log
 import androidx.compose.runtime.Composable
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
+import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
-import com.example.doggy.Screens.List.argUrl
+import com.example.doggy.Screens.Home.argUrl
 import com.example.doggy.network.DogInfo
-import com.example.doggy.network.DogInfoType
-import com.example.doggy.screens.breeddetail.DogDetails
-import com.example.doggy.screens.breedlist.BreedList
-import com.example.doggy.screens.welcome.WelcomePage
+import com.example.doggy.screens.breeddetail.DogDetailScreen
+import com.example.doggy.screens.home.HomeScreen
+import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
 
@@ -21,28 +23,25 @@ private const val TAG = "NavGraph"
 @Composable
 fun SetupNavGraph(
     navController: NavHostController,
-    state: State
+    topbarStateChangeCallback: (Boolean) -> Unit
 ) {
     NavHost(
         navController = navController,
-        startDestination = Screens.List.route
+        startDestination = Screens.Home.route
     ) {
         composable(
-            route = Screens.List.route
+            route = Screens.Home.route
         ) {
-            when (state) {
-                is State.Loading -> {
-                    WelcomePage()
+            HomeScreen(
+                homeViewModel = viewModel(),
+                topbarStateChangeCallback = topbarStateChangeCallback,
+                onDogClick = { dogInfo ->
+                    Log.d(TAG, "SetupNavGraph: $dogInfo")
+                    navController.navigate(Screens.Detail.createRoute(dogInfo))
                 }
-                is State.Success -> {
-                    BreedList(allDog = state.dogs, onDogClick = { dogInfo: DogInfo ->
-
-                        Log.d(TAG, "SetupNavGraph: : $dogInfo")
-                        navController.navigate(Screens.Detail.createRoute(dogInfo))
-                    })
-                }
-            }
+            )
         }
+
         composable(
             route = Screens.Detail.route,
             arguments = listOf(navArgument(argUrl) {
@@ -53,7 +52,7 @@ fun SetupNavGraph(
             val dogInfo: DogInfo = it.arguments?.getParcelable(argUrl)!!
 
             Log.d(TAG, "SetupNavGraph: imageUrl: $dogInfo")
-            DogDetails(dogInfo = dogInfo, onHomeClick = {
+            DogDetailScreen(dogInfo = dogInfo, onHomeClick = {
                 navController.popBackStack()
             })
         }
@@ -63,7 +62,7 @@ fun SetupNavGraph(
 sealed class Screens(val route: String) {
     val argUrl = "imageUrl"
 
-    object List : Screens("list")
+    object Home : Screens("home")
 
     object Detail : Screens("item/{$argUrl}") {
         fun createRoute(dogInfo: DogInfo): String {
@@ -74,4 +73,25 @@ sealed class Screens(val route: String) {
             return "item/$argument"
         }
     }
+}
+
+val DogInfoType = object : NavType<DogInfo>(
+    isNullableAllowed = false
+) {
+
+    override fun put(bundle: Bundle, key: String, value: DogInfo) {
+        bundle.putParcelable(key, value)
+    }
+
+    override fun get(bundle: Bundle, key: String): DogInfo {
+        @Suppress("DEPRECATION")
+        return bundle.getParcelable<DogInfo>(key) as DogInfo
+    }
+
+    override fun parseValue(value: String): DogInfo {
+        return Json.decodeFromString(value)
+    }
+
+    // Only required when using Navigation 2.4.0-alpha07 and lower
+    override val name = "DogInfo"
 }

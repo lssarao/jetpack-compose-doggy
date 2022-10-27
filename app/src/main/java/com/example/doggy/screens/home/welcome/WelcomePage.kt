@@ -1,4 +1,4 @@
-package com.example.doggy.screens.welcome
+package com.example.doggy.screens.home.welcome
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
@@ -18,7 +18,7 @@ import com.example.doggy.ui.theme.myColour1
 import com.example.doggy.ui.theme.myColour2
 
 @Composable
-fun WelcomePage() {
+fun WelcomeComponent() {
     val url =
         "https://img.freepik.com/premium-vector/cute-brown-dog-happy-greet-cartoon-illustration_511562-3.jpg"
     val painter = rememberAsyncImagePainter(

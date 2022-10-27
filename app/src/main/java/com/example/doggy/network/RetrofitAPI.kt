@@ -1,13 +1,9 @@
 package com.example.doggy.network
 
-import android.os.Bundle
 import android.os.Parcelable
-import androidx.navigation.NavType
 import com.google.gson.annotations.SerializedName
 import kotlinx.parcelize.Parcelize
 import kotlinx.serialization.Serializable
-import kotlinx.serialization.decodeFromString
-import kotlinx.serialization.json.Json
 import retrofit2.Call
 import retrofit2.http.GET
 
@@ -54,24 +50,3 @@ data class Image(
     @SerializedName("height") val height: Int,
     @SerializedName("url") val url: String
 ) : Parcelable
-
-val DogInfoType = object : NavType<DogInfo>(
-    isNullableAllowed = false
-) {
-
-    override fun put(bundle: Bundle, key: String, value: DogInfo) {
-        bundle.putParcelable(key, value)
-    }
-
-    override fun get(bundle: Bundle, key: String): DogInfo {
-        @Suppress("DEPRECATION")
-        return bundle.getParcelable<DogInfo>(key) as DogInfo
-    }
-
-    override fun parseValue(value: String): DogInfo {
-        return Json.decodeFromString(value)
-    }
-
-    // Only required when using Navigation 2.4.0-alpha07 and lower
-    override val name = "DogInfo"
-}
