@@ -11,6 +11,8 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
+import com.example.doggy.network.DogInfo
+import com.example.doggy.network.RetrofitAPI
 import com.example.doggy.ui.theme.DoggyTheme
 import retrofit2.Call
 import retrofit2.Callback

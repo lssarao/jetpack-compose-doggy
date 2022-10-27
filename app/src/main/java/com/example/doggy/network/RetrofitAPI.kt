@@ -1,4 +1,4 @@
-package com.example.doggy
+package com.example.doggy.network
 
 import android.os.Bundle
 import android.os.Parcelable
@@ -64,6 +64,7 @@ val DogInfoType = object : NavType<DogInfo>(
     }
 
     override fun get(bundle: Bundle, key: String): DogInfo {
+        @Suppress("DEPRECATION")
         return bundle.getParcelable<DogInfo>(key) as DogInfo
     }
 
