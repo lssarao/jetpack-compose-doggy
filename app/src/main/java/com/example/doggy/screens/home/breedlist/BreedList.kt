@@ -17,13 +17,16 @@ import androidx.compose.ui.Alignment.Companion.BottomEnd
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
-import com.example.doggy.TopBar
 import com.example.doggy.network.DogInfo
 import com.example.doggy.ui.theme.myColour2
 import kotlinx.coroutines.launch
 
 @Composable
-fun BreedListComponent(allDog: List<DogInfo>, onDogClick: (DogInfo) -> Unit) {
+fun BreedListComponent(
+    allDog: List<DogInfo>,
+    onDogClick: (DogInfo) -> Unit,
+    jumpToTopButton: Boolean
+) {
     val scrollState = rememberLazyListState()
     val coroutineScope = rememberCoroutineScope()
 
@@ -37,20 +40,22 @@ fun BreedListComponent(allDog: List<DogInfo>, onDogClick: (DogInfo) -> Unit) {
                 Log.d("HomePage", newDog.toString())
             }
         } // column end
-        FloatingActionButton(
-            onClick = {
-                coroutineScope.launch {
-                    scrollState.animateScrollToItem(0)
-                }
-            },
-            modifier = Modifier
-                .align(BottomEnd)
-                .padding(10.dp),
-            shape = CircleShape,
-            backgroundColor = myColour2,
-            contentColor = Color.White
-        ) {
-            Icon(Icons.Default.KeyboardArrowUp, "Jump To Top")
+        if (jumpToTopButton) {
+            FloatingActionButton(
+                onClick = {
+                    coroutineScope.launch {
+                        scrollState.animateScrollToItem(0)
+                    }
+                },
+                modifier = Modifier
+                    .align(BottomEnd)
+                    .padding(10.dp),
+                shape = CircleShape,
+                backgroundColor = myColour2,
+                contentColor = Color.White
+            ) {
+                Icon(Icons.Default.KeyboardArrowUp, "Jump To Top")
+            }
         }
     } // Box end
 }

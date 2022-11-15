@@ -52,7 +52,8 @@ fun HomeScreen(
             topbarStateChangeCallback(true)
             BreedListComponent(
                 allDog = state.dogs,
-                onDogClick = onDogClick
+                onDogClick = onDogClick,
+                jumpToTopButton = false
             )
         }
     }
