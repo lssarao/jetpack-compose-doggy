@@ -14,6 +14,7 @@ import com.example.doggy.Screens.Home.argUrl
 import com.example.doggy.network.DogInfo
 import com.example.doggy.screens.breeddetail.DogDetailScreen
 import com.example.doggy.screens.home.HomeScreen
+import com.example.doggy.screens.searchbar.SearchScreen
 import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
@@ -23,7 +24,7 @@ private const val TAG = "NavGraph"
 @Composable
 fun SetupNavGraph(
     navController: NavHostController,
-    topbarStateChangeCallback: (Boolean) -> Unit
+    topBarStateChangeCallback: (Boolean) -> Unit
 ) {
     NavHost(
         navController = navController,
@@ -34,14 +35,13 @@ fun SetupNavGraph(
         ) {
             HomeScreen(
                 homeViewModel = viewModel(),
-                topbarStateChangeCallback = topbarStateChangeCallback,
+                topBarStateChangeCallback = topBarStateChangeCallback,
                 onDogClick = { dogInfo ->
                     Log.d(TAG, "SetupNavGraph: $dogInfo")
                     navController.navigate(Screens.Detail.createRoute(dogInfo))
                 }
             )
         }
-
         composable(
             route = Screens.Detail.route,
             arguments = listOf(navArgument(argUrl) {
@@ -52,9 +52,16 @@ fun SetupNavGraph(
             val dogInfo: DogInfo = it.arguments?.getParcelable(argUrl)!!
 
             Log.d(TAG, "SetupNavGraph: imageUrl: $dogInfo")
-            DogDetailScreen(dogInfo = dogInfo, onHomeClick = {
-                navController.popBackStack()
-            })
+            DogDetailScreen(dogInfo = dogInfo)
+        }
+        composable(
+            route = Screens.Search.route,
+        ) {
+            SearchScreen(
+                searchViewModel = viewModel(),
+                onDogClick = { dogInfo ->
+                    navController.navigate(Screens.Detail.createRoute(dogInfo))
+                })
         }
     }
 }
@@ -63,6 +70,8 @@ sealed class Screens(val route: String) {
     val argUrl = "imageUrl"
 
     object Home : Screens("home")
+
+    object Search: Screens("search")
 
     object Detail : Screens("item/{$argUrl}") {
         fun createRoute(dogInfo: DogInfo): String {

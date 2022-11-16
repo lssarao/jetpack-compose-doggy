@@ -23,15 +23,18 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import coil.compose.rememberAsyncImagePainter
 import coil.request.ImageRequest
+import com.example.doggy.R
 import com.example.doggy.network.DogInfo
 
 private const val TAG = "BreedList"
 
 @Composable
 fun BreedItemComponent(dogData: DogInfo, onDogClick: (DogInfo) -> Unit) {
+
     val painter = rememberAsyncImagePainter(
         model = ImageRequest.Builder(LocalContext.current)
-            .data(dogData.image.url)
+            .data(dogData.imageUrl)
+            .fallback(R.drawable.ic_launcher_background)
             .crossfade(true)
             .build(),
         contentScale = ContentScale.Fit
@@ -60,12 +63,12 @@ fun BreedItemComponent(dogData: DogInfo, onDogClick: (DogInfo) -> Unit) {
                 )
                 Column {
                     Text(
-                        text = dogData.name,
+                        text = dogData.name ?: "Unknown",
                         style = MaterialTheme.typography.h6,
                         modifier = Modifier.absolutePadding(top = 8.dp, left = 12.dp, right = 12.dp)
                     )
                     Text(
-                        text = dogData.temperament,
+                        text = dogData.temperament?:"Sorry, this information is not available.",
                         style = MaterialTheme.typography.caption,
                         modifier = Modifier.absolutePadding(top = 8.dp, left = 12.dp, right = 12.dp)
                     )
