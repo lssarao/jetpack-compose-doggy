@@ -5,23 +5,21 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material.Icon
-import androidx.compose.material.IconButton
+import androidx.compose.material.*
 import androidx.compose.material.MaterialTheme.colors
-import androidx.compose.material.Scaffold
-import androidx.compose.material.Surface
-import androidx.compose.material.Text
-import androidx.compose.material.TopAppBar
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.rounded.Search
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.example.doggy.ui.theme.DoggyTheme
+import com.example.doggy.ui.theme.myColour2
 
 /**
  * API
@@ -45,24 +43,42 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             DoggyTheme {
-                var topbarState by remember { mutableStateOf(false) }
-
+                var topBarState by remember { mutableStateOf(false) }
                 navController = rememberNavController()
 
                 Scaffold(
                     topBar = {
-                        if (topbarState) {
+                        if (topBarState) {
                             TopAppBar(
-                                title = { Text(text = "Dog Breeds") },
+                                title = {
+                                    Text(
+                                        text = "Dog Breeds",
+                                        color = Color.White
+                                    )
+                                },
+                                navigationIcon = {
+                                    IconButton(
+                                        onClick = { navController.popBackStack() }
+                                    ) {
+                                        Icon(
+                                            imageVector = Icons.Default.Home,
+                                            contentDescription = "home",
+                                            tint = Color.White
+                                        )
+                                    }
+                                },
                                 actions = {
                                     IconButton(onClick = {
+                                        navController.navigate("search")
                                     }) {
                                         Icon(
                                             imageVector = Icons.Rounded.Search,
-                                            contentDescription = "Search"
+                                            contentDescription = "Search",
+                                            tint = Color.White
                                         )
                                     }
-                                }
+                                },
+                                backgroundColor = myColour2
                             )
                         }
                     }
@@ -75,8 +91,8 @@ class MainActivity : ComponentActivity() {
                     ) {
                         SetupNavGraph(
                             navController = navController,
-                            topbarStateChangeCallback = { showTopBar: Boolean ->
-                                topbarState = showTopBar
+                            topBarStateChangeCallback = { showTopBar: Boolean ->
+                                topBarState = showTopBar
                             }
                         )
                     }

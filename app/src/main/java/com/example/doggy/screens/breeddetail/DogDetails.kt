@@ -7,20 +7,13 @@ package com.example.doggy.screens.breeddetail
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.selection.SelectionContainer
-import androidx.compose.material.ButtonDefaults
 import androidx.compose.material.Card
-import androidx.compose.material.Icon
-import androidx.compose.material.OutlinedButton
 import androidx.compose.material.Text
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Home
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -38,12 +31,13 @@ import com.example.doggy.network.DogInfo
 import com.example.doggy.ui.theme.myColour2
 
 @Composable
-fun DogDetailScreen(dogInfo: DogInfo, onHomeClick: () -> Unit) {
+fun DogDetailScreen(dogInfo: DogInfo) {
     val painter = rememberAsyncImagePainter(
         model = ImageRequest.Builder(LocalContext.current)
-            .data(dogInfo.image.url)
+            .data(dogInfo.imageUrl)
+            .fallback(coil.base.R.drawable.notification_template_icon_low_bg)
             .crossfade(true)
-            .build(),
+            .build()
     )
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
@@ -94,16 +88,21 @@ fun DogDetailScreen(dogInfo: DogInfo, onHomeClick: () -> Unit) {
                             fontWeight = FontWeight.Bold
                         )
                         Text(
-                            text = dogInfo.name,
+                            text = dogInfo.name ?: "Unknown",
                         )
                     }
                     Row {
+                        val annotatedString = buildAnnotatedString {
+                            withStyle(style = SpanStyle(fontWeight = FontWeight.Bold)) {
+                                append("Bred For: ")
+                            }
+                            withStyle(style = SpanStyle(fontWeight = FontWeight.Normal)) {
+                                append(dogInfo.bredFor ?: "Unknown")
+                            }
+                        }
                         Text(
-                            text = "Bred For: ",
+                            text = annotatedString,
                             fontWeight = FontWeight.Bold
-                        )
-                        Text(
-                            text = dogInfo.bredFor ?: "Unknown",
                         )
                     }
                     Row {
@@ -121,7 +120,7 @@ fun DogDetailScreen(dogInfo: DogInfo, onHomeClick: () -> Unit) {
                             fontWeight = FontWeight.Bold
                         )
                         Text(
-                            text = dogInfo.lifeSpan,
+                            text = dogInfo.lifeSpan ?: "Unknown",
                         )
                     }
                     Row {
@@ -139,16 +138,19 @@ fun DogDetailScreen(dogInfo: DogInfo, onHomeClick: () -> Unit) {
                         )
                     }
                     Row {
-                        val annotatedString = buildAnnotatedString {
+                        val annotatedTemperament = buildAnnotatedString {
                             withStyle(style = SpanStyle(fontWeight = FontWeight.Bold)) {
                                 append("Temperament: ")
                             }
                             withStyle(style = SpanStyle(fontWeight = FontWeight.Normal)) {
-                                append(dogInfo.temperament)
+                                append(
+                                    dogInfo.temperament
+                                        ?: "Sorry, this information is not available."
+                                )
                             }
                         }
                         Text(
-                            text = annotatedString,
+                            text = annotatedTemperament,
                             fontWeight = FontWeight.Bold
                         )
                     }
@@ -158,7 +160,7 @@ fun DogDetailScreen(dogInfo: DogInfo, onHomeClick: () -> Unit) {
                             fontWeight = FontWeight.Bold
                         )
                         Text(
-                            text = dogInfo.height.metric,
+                            text = dogInfo.height?.metric ?: "Unknown",
                         )
                     }
                     Row {
@@ -167,21 +169,11 @@ fun DogDetailScreen(dogInfo: DogInfo, onHomeClick: () -> Unit) {
                             fontWeight = FontWeight.Bold
                         )
                         Text(
-                            text = dogInfo.weight.metric,
+                            text = dogInfo.weight?.metric ?: "Unknown",
                         )
                     }
-                }
-            }
-        }
-        OutlinedButton(
-            onClick = { onHomeClick() },
-            modifier = Modifier.size(50.dp),
-            shape = CircleShape,
-            border = BorderStroke(1.dp, myColour2),
-            contentPadding = PaddingValues(0.dp),  //avoid the little icon
-            colors = ButtonDefaults.outlinedButtonColors(contentColor = myColour2)
-        ) {
-            Icon(Icons.Default.Home, contentDescription = "content description")
-        }
-    }
+                } // Column contains rows end
+            } // Selection Container end
+        } // Card end
+    } // Parent column end
 }

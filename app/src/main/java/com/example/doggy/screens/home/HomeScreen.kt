@@ -11,8 +11,6 @@ import com.example.doggy.network.NetworkRepository
 import com.example.doggy.screens.home.breedlist.BreedListComponent
 import com.example.doggy.screens.home.welcome.WelcomeComponent
 
-private const val TAG = "HomeScreen"
-
 sealed class HomeUiState {
     object Loading : HomeUiState()
     data class Success(val dogs: List<DogInfo>) : HomeUiState()
@@ -41,19 +39,19 @@ class HomeViewModel : ViewModel() {
 fun HomeScreen(
     homeViewModel: HomeViewModel,
     onDogClick: (DogInfo) -> Unit,
-    topbarStateChangeCallback: (Boolean) -> Unit
+    topBarStateChangeCallback: (Boolean) -> Unit
 ) {
     when (val state: HomeUiState = homeViewModel.uiState) {
         is HomeUiState.Loading -> {
             WelcomeComponent()
-            topbarStateChangeCallback(false)
+            topBarStateChangeCallback(false)
         }
         is HomeUiState.Success -> {
-            topbarStateChangeCallback(true)
+            topBarStateChangeCallback(true)
             BreedListComponent(
                 allDog = state.dogs,
                 onDogClick = onDogClick,
-                jumpToTopButton = false
+                jumpToTopButton = true
             )
         }
     }
