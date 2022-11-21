@@ -55,7 +55,7 @@ fun WelcomeComponent() {
             modifier = Modifier.padding(top = 700.dp)
         ) {
             Text(
-                text = "Crafted with love in Punjab",
+                text = "Crafted with \u2665 in Punjab",
                 color = myColour1
             )
         } // 2 Column end

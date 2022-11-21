@@ -10,7 +10,7 @@ import retrofit2.http.Query
 
 interface RetrofitAPI {
     @GET("v1/breeds")
-    fun getDetail(): Call<List<DogInfo>>
+    suspend fun getDetail(): List<DogInfo>
 
     @GET("v1/breeds/search")
     fun searchBreedByName(@Query("q") name: String): Call<List<DogInfo>>

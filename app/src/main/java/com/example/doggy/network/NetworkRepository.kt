@@ -1,29 +1,18 @@
 package com.example.doggy.network
 
 import android.util.Log
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
 class NetworkRepository(private val retrofitAPI: RetrofitAPI) {
 
-    fun getBreedList(callback: (dogInfoList: List<DogInfo>) -> Unit) {
-        val call = retrofitAPI.getDetail()
-
-        call.enqueue(object : Callback<List<DogInfo>?> {
-            override fun onResponse(
-                call: Call<List<DogInfo>?>,
-                response: Response<List<DogInfo>?>
-            ) {
-                Log.d("Api Call", "response: ${response.body()}")
-                val dogDataFromApi = response.body()!!
-                callback(dogDataFromApi)
-            }
-
-            override fun onFailure(call: Call<List<DogInfo>?>, t: Throwable) {
-                Log.e("Api Call", "error: $t")
-            }
-        })
+    suspend fun getBreedList(): Result<List<DogInfo>> {
+        return withContext(Dispatchers.IO) {
+            kotlin.runCatching { retrofitAPI.getDetail() }
+        }
     }
 
     fun searchBreedByName(name: String, callback: (dogInfoList: List<DogInfo>) -> Unit) {
@@ -35,6 +24,7 @@ class NetworkRepository(private val retrofitAPI: RetrofitAPI) {
                 response: Response<List<DogInfo>?>
             ) {
                 Log.d("Search Call", "response: ${response.body()}")
+                Log.d("Thread", "Search Api Call Thread: ${(Thread.currentThread().name)}")
                 val searchedDataFromApi = response.body()!!
                 callback(searchedDataFromApi)
             }
@@ -45,22 +35,3 @@ class NetworkRepository(private val retrofitAPI: RetrofitAPI) {
         })
     }
 }
-/*
-    fun getImage(imageId: String, callback: (dogImage: DogImage) -> Unit) {
-        val call = retrofitAPI.getImage(imageId)
-
-        call.enqueue(object : Callback<DogImage> {
-            override fun onResponse(call: Call<DogImage>, response: Response<DogImage>) {
-                Log.d("Get Image Request", "response: ${response.body()}")
-                val imageDataFromApi = response.body()!!
-                callback(imageDataFromApi)
-            }
-
-            override fun onFailure(call: Call<DogImage>, t: Throwable) {
-                Log.d("Get Image Request", "error: $t")
-            }
-
-        })
-    }
-}
-*/

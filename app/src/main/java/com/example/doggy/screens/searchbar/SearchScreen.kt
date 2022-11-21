@@ -15,16 +15,19 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.RectangleShape
-import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.example.doggy.network.DogInfo
 import com.example.doggy.network.NetworkRepository
 import com.example.doggy.network.RetrofitApiBuilder
 import com.example.doggy.screens.home.breedlist.BreedListComponent
 import com.example.doggy.ui.theme.myColour2
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 
 class SearchViewModel : ViewModel() {
     var uiState by mutableStateOf(SearchScreenState())
@@ -32,6 +35,25 @@ class SearchViewModel : ViewModel() {
 
     private val retrofitAPI = RetrofitApiBuilder().build()
     private val repository = NetworkRepository(retrofitAPI = retrofitAPI)
+
+    init {
+        viewModelScope.launch {
+            Log.d("Thread", "View Model Scope: ${(Thread.currentThread().name)}")
+            delay(10_000L)
+            Log.d("Thread", "View Model Scope: 2")
+        }
+
+        GlobalScope.launch {
+            Log.d("Thread", "Global Scope: ${(Thread.currentThread().name)}")
+            delay(10_000L)
+            Log.d("Thread", "Global Scope: 2")
+        }
+    }
+
+    override fun onCleared() {
+        super.onCleared()
+        Log.d("Thread", "view model cleared")
+    }
 
     fun search(query: String) {
         repository.searchBreedByName(name = query) { searchedBreedList ->
@@ -80,7 +102,6 @@ fun SearchBar(
     onInputValueChange: (String) -> Unit,
 ) {
     var textState by remember { mutableStateOf("") }
-    val focusManager = LocalFocusManager.current
 
     OutlinedTextField(
         value = textState,

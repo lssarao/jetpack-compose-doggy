@@ -1,18 +1,22 @@
 package com.example.doggy.screens.home
 
+import android.util.Log
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.example.doggy.network.DogInfo
-import com.example.doggy.network.RetrofitApiBuilder
 import com.example.doggy.network.NetworkRepository
+import com.example.doggy.network.RetrofitApiBuilder
 import com.example.doggy.screens.home.breedlist.BreedListComponent
 import com.example.doggy.screens.home.welcome.WelcomeComponent
+import kotlinx.coroutines.launch
 
 sealed class HomeUiState {
     object Loading : HomeUiState()
+    object Error : HomeUiState()
     data class Success(val dogs: List<DogInfo>) : HomeUiState()
 }
 
@@ -25,13 +29,21 @@ class HomeViewModel : ViewModel() {
         private set
 
     init {
-        fetchDogBreedList()
+        viewModelScope.launch {
+            fetchDogBreedList()
+        }
     }
 
-    private fun fetchDogBreedList() {
-        repository.getBreedList { dogBreedList ->
-            uiState = HomeUiState.Success(dogBreedList)
-        }
+    private suspend fun fetchDogBreedList() {
+        val result = repository.getBreedList()
+        result.fold(
+            onSuccess = {
+                uiState = HomeUiState.Success(result.getOrNull()!!)
+            }, onFailure = { e ->
+                HomeUiState.Error
+                Log.d("On Failure", "Throwable exception on failure: $e")
+            }
+        )
     }
 }
 
@@ -53,6 +65,9 @@ fun HomeScreen(
                 onDogClick = onDogClick,
                 jumpToTopButton = true
             )
+        }
+        HomeUiState.Error -> {
+            ErrorComponent()
         }
     }
 }
