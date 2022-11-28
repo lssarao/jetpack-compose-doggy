@@ -1,12 +1,15 @@
 package com.example.doggy.screens.home
 
+import android.app.Application
 import android.util.Log
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
-import androidx.lifecycle.ViewModel
+import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.doggy.database.DogDatabase
+import com.example.doggy.database.TimeManager
 import com.example.doggy.network.DogInfo
 import com.example.doggy.network.NetworkRepository
 import com.example.doggy.network.RetrofitApiBuilder
@@ -20,10 +23,15 @@ sealed class HomeUiState {
     data class Success(val dogs: List<DogInfo>) : HomeUiState()
 }
 
-class HomeViewModel : ViewModel() {
+class HomeViewModel(application: Application) : AndroidViewModel(application) {
 
+    private val dogBreedsDao = DogDatabase.getInstance(application.applicationContext).dogBreedsDao()
     private val retrofitAPI = RetrofitApiBuilder().build()
-    private val repository = NetworkRepository(retrofitAPI = retrofitAPI)
+    private val repository = NetworkRepository(
+        retrofitAPI = retrofitAPI,
+        dogBreedsDao = dogBreedsDao,
+        timeManager = TimeManager(application.applicationContext)
+    )
 
     var uiState by mutableStateOf<HomeUiState>(HomeUiState.Loading)
         private set

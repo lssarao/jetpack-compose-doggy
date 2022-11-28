@@ -34,7 +34,7 @@ class SearchViewModel : ViewModel() {
         private set
 
     private val retrofitAPI = RetrofitApiBuilder().build()
-    private val repository = NetworkRepository(retrofitAPI = retrofitAPI)
+    // private val repository = NetworkRepository(retrofitAPI = retrofitAPI)
 
     init {
         viewModelScope.launch {
@@ -56,12 +56,12 @@ class SearchViewModel : ViewModel() {
     }
 
     fun search(query: String) {
-        repository.searchBreedByName(name = query) { searchedBreedList ->
-            uiState = SearchScreenState(
-                inputText = query,
-                dogs = searchedBreedList
-            )
-        }
+//        repository.searchBreedByName(name = query) { searchedBreedList ->
+//            uiState = SearchScreenState(
+//                inputText = query,
+//                dogs = searchedBreedList
+//            )
+//        }
     }
 }
 
