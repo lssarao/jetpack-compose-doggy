@@ -7,22 +7,37 @@ This app is a comprehensive guide to dog breeds that features a list of dogs wit
 Click [here](https://appetize.io/app/6hv2hkiojrxgbj3dc32zdpchli) to try out our sample app without downloading or installing anything.
 
 **Programming Language:** Kotlin
+
 **UI:** Jetpack Compose
+
 **Development Tools:** Android Studio IDE
+
 **Libraries and Frameworks:**
+
 Android Jetpack Components: ViewModel, LiveData, Room, Navigation
+
 Retrofit and OkHttp for network requests and API communication
+
 Coil for image loading and caching
+
 Gson for JSON serialization and deserialization
+
 Kotlin Coroutines for managing background tasks
+
 SharedPreferences to store and retrieve cache temporary data
+
 Push notification with channel
+
 Material Design guidelines and standards for UI design
+
 Gradle for building and dependency management
 
 **Architecture:** Model-View-ViewModel (MVVM) architecture
+
 **Database:** Room DB
+
 **Version Control:** Git
+
 **Testing:** 
 
  - JUnit and Mockito for unit testing
