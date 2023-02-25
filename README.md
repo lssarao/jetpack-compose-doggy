@@ -14,23 +14,23 @@ Click [here](https://appetize.io/app/6hv2hkiojrxgbj3dc32zdpchli) to try out our 
 
 **Libraries and Frameworks:**
 
-Android Jetpack Components: ViewModel, LiveData, Room, Navigation
+ - Android Jetpack Components: ViewModel, LiveData, Room, Navigation
 
-Retrofit and OkHttp for network requests and API communication
+ - Retrofit and OkHttp for network requests and API communication
 
-Coil for image loading and caching
+ - Coil for image loading and caching
 
-Gson for JSON serialization and deserialization
+ - Gson for JSON serialization and deserialization
 
-Kotlin Coroutines for managing background tasks
+ - Kotlin Coroutines for managing background tasks
 
-SharedPreferences to store and retrieve cache temporary data
+ - SharedPreferences to store and retrieve cache temporary data
 
-Push notification with channel
+ - Push notification with channel
 
-Material Design guidelines and standards for UI design
+ - Material Design guidelines and standards for UI design
 
-Gradle for building and dependency management
+ - Gradle for building and dependency management
 
 **Architecture:** Model-View-ViewModel (MVVM) architecture
 
