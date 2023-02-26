@@ -18,7 +18,7 @@ Click [here](https://appetize.io/app/6hv2hkiojrxgbj3dc32zdpchli) to try out our 
 
 **Libraries and Frameworks:**
 
- - Android Jetpack Components: ViewModel, LiveData, Room, Navigation
+ - Android Jetpack Components: ViewModel, Room, Navigation
 
  - Retrofit and OkHttp for network requests and API communication
 
