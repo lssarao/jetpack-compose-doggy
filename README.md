@@ -1,10 +1,14 @@
 ## Doggy - Dog Breed App
+
 This app is a comprehensive guide to dog breeds that features a list of dogs with their photos, names, and unique characteristics. This app can be used by dog owners, breeders, and pet enthusiasts to learn more about different dog breeds. It works offline so you can explore dog breeds while on the go. It also includes a search feature, which allows you to easily find specific dog breeds that you're interested in.
 
 ## Demo
+
 <img src="https://user-images.githubusercontent.com/65452331/221377022-13291443-f4ca-43d0-9d62-58d1599a62b9.png" width="23%"></img> <img src="https://user-images.githubusercontent.com/65452331/221377027-48769718-65cc-4d06-9a6c-ecc427c6ca87.png" width="23%"></img> <img src="https://user-images.githubusercontent.com/65452331/221377031-0242057a-5091-42a9-ab21-2dcfb570969b.png" width="23%"></img> <img src="https://user-images.githubusercontent.com/65452331/221377032-89d0b4f3-4926-459d-b7aa-80ccaa4e73d1.png" width="23%"></img> 
 
 Click [here](https://appetize.io/app/6hv2hkiojrxgbj3dc32zdpchli) to try out our sample app without downloading or installing anything.
+
+## Tech Stack
 
 **Programming Language:** Kotlin
 
